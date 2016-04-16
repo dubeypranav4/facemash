@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.sumitkaushik.hbtifacemashdemo1.Help">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et2"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:hint="Subject"
+                android:inputType="textAutoComplete|textAutoCorrect"
+                android:textStyle="normal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et3"
+                android:layout_width="fill_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp"
+                android:gravity="top"
+                android:hint="Tell Us"
+                android:inputType="textAutoComplete|textAutoCorrect"
+                android:minLines="4"
+                android:textStyle="normal" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/b1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:background="#eeeeee"
+            android:shadowColor="#0f0f0f"/>
+
+
+    </LinearLayout>
+
+</ScrollView>

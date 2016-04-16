@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Import" />
+        <item
+            android:id="@+id/nav_take_pic"
+            android:title="Take A Pic"/>
+        <item
+            android:id="@+id/nav_dp_celebrity"
+            android:title="DP Celebrity"/>
+
+        <item
+            android:title="Edit Profile"
+            android:id="@+id/nav_edit_profile"/>
+        <item
+            android:title="Players"
+            android:id="@+id/nav_players"/>
+
+
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+            <item
+                android:id="@+id/nav_mail"
+                android:title="Contact Us" />
+
+        </menu>
+    </item>
+
+
+</menu>
