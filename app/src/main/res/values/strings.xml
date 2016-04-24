@@ -27,6 +27,23 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_dp_celebrity">dpCelebrity</string>
+    <string name="fixedAspectRatio">fixedAspectRatio =\u0020</string>
+    <string name="aspectRatioXHeader">aspectRatioX =\u0020</string>
+    <string name="aspectRatioYHeader">aspectRatioY =\u0020</string>
+    <string name="showGuidelines">showGuidelines =\u0020</string>
+    <string name="crop">Crop</string>
+    <string name="croppedImageDesc">The cropped image.</string>
+
+    <string-array name="showGuidelinesArray">
+        <item>Off</item>
+        <item>On Touch</item>
+        <item>On</item>
+    </string-array>
+    <string name="title_activity_final_image">FinalImage</string>
+    <string name="title_activity_animate_view">AnimateView</string>
+    <string name="title_activity_finalize_crop">FinalizeCrop</string>
+    <string name="title_activity_finalize">finalize</string>
+    <string name="title_activity_cropped_final_image">croppedFinalImage</string>
 
 
 </resources>

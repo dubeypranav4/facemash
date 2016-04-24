@@ -47,6 +47,7 @@ public class ContactUs extends Activity implements View.OnClickListener {
     }
 
     public void onClick(View v) {
+
         convert();
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));

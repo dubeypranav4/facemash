@@ -22,15 +22,13 @@
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        >
+        android:layout_centerVertical="true">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -47,71 +45,57 @@
                     android:textSize="15sp" />
 
             </android.support.design.widget.TextInputLayout>
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/password"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textSize="15sp" />
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_password"
+                        android:imeActionId="@+id/login"
+                        android:imeActionLabel="@string/action_sign_in_short"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textSize="15sp" />
 
-</RelativeLayout>
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rgb"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="M"
-                    android:id="@+id/male"
-                    android:enabled="true" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="F"
-                    android:id="@+id/female"
-                    android:layout_marginLeft="10sp" />
-            </RadioGroup>
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
 
 
-    <android.support.v7.widget.AppCompatButton
+            <Button
                 android:id="@+id/sign_in_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold"
                 android:background="@drawable/button"
-                android:shadowColor="#F50057"
                 android:elevation="10sp"
+                android:shadowColor="#F50057"
+                android:text="@string/action_sign_in"
                 android:textColor="#eeeeee"
-                />
-            <TextView android:id="@+id/register_button"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/register_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:text="No account yet? Create one"
+                android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:textSize="16dip"
-                android:layout_marginTop="15dp" />
+                android:text="No account yet? Create one"
+                android:textSize="16dip" />
         </LinearLayout>
 
     </ScrollView>
+
 </RelativeLayout>

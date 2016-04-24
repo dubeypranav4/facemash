@@ -30,5 +30,22 @@
         android:layout_marginTop="10dp"
         android:textStyle="normal|bold|italic"
         android:typeface="serif" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/year"
+        android:layout_below="@+id/branch"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10sp"
+        android:textStyle="normal|bold|italic"
+        android:typeface="monospace"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/branch"
+        android:layout_below="@+id/main_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10sp"
+        android:textStyle="normal|bold|italic"
+        android:typeface="monospace"/>
 </RelativeLayout>

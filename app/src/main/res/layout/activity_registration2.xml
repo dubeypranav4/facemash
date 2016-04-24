@@ -109,7 +109,8 @@
                 android:text="Register"
                 android:textColor="#eeeeee"
                 android:textStyle="bold"
-                android:layout_marginTop="20sp" />
+                android:layout_marginTop="20sp"
+                />
 
 
         </LinearLayout>

@@ -2,6 +2,8 @@ package com.example.sumitkaushik.hbtifacemashdemo1;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
@@ -9,7 +11,9 @@ import android.os.Bundle;
 
 public class dpCelebrity extends FragmentActivity implements
         ActionBar.TabListener {
-    Male m;
+
+
+
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
@@ -21,9 +25,10 @@ public class dpCelebrity extends FragmentActivity implements
         setContentView(R.layout.activity_dp_celebrity);
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
+
         actionBar = getActionBar();
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-
+             mAdapter.init(BitmapFactory.decodeResource(getResources(),R.drawable.logo),BitmapFactory.decodeResource(getResources(),R.drawable.unt));
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

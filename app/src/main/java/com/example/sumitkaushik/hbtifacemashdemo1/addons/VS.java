@@ -2,9 +2,12 @@ package com.example.sumitkaushik.hbtifacemashdemo1.addons;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.sumitkaushik.hbtifacemashdemo1.R;
 
 /**
  * Created by Pranav on 3/16/2016.
@@ -23,9 +26,9 @@ public class VS extends View {
     Paint r=new Paint();
     //Paint p=new Paint();
 float y=0;
-    int a=100%255;
-    int g=100%255;
-    int b=100%255;
+   /// int a=100%255;
+   // int g=100%255;
+   // int b=100%255;
     int flag=0;
     //float x;
     @Override
@@ -34,21 +37,23 @@ float y=0;
         float width=this.getMeasuredWidth();
         float height=this.getMeasuredHeight();
         //r.setColor(Color.RED);
-        r.setARGB(100,a,g,b);
+       // r.setARGB(100,a,g,b);
+        r.setColor(Color.argb(255,63,81,181));
        r.setStrokeWidth(10);
        // canvas.drawLine((right-left)/2,up,(right-left)/2,(up-down)/2,p);
         canvas.drawLine(width/2,0,width/2,y,r);
-        canvas.drawLine(width/2,height,width/2,height-y,r);
+        canvas.drawLine(width / 2, height, width / 2, height - y, r);
         if(y<(height/2)&&flag==0){
-          y++;a=a+15;g=g+13;b=b+17;
-            if(y==(height/2)){
-                flag=1;y++;a=a+15;g=g+13;b=b+17;
+          y++;
+            if(y==(height/2)) {
+                flag = 1;
+                y++;
             }
         }else if(y>=(height/2)||flag==1){
             canvas.save();
-            y--;a=a+15;g=g+13;b=b+17;
+            y--;
             if(y==0){
-                flag=0;a=a+15;g=g+13;b=b+17;
+                flag=0;
             }
         }
 

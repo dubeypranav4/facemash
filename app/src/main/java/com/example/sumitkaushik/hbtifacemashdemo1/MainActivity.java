@@ -1,9 +1,13 @@
 package com.example.sumitkaushik.hbtifacemashdemo1;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -35,7 +39,9 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,15 +56,18 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public String srno;
-    public String name;
-    public String gender;
-    TextView t1;
+    private static final int SELECT_FILE = 1;
+    public static String srno;
+    public static String name;
+    public static String gender;
+    public String status;
+    TextView t1,t2,t3;
     ImageView img;
-    Bitmap bmp;
+    public Bitmap bmp;
     private int PICK_IMAGE_REQUEST = 1;
-    private Uri filePath;
     private int cameraData = 0;
+    public static Bundle b;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,20 +75,31 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         t1 = (TextView) findViewById(R.id.main_name);
+        t2=(TextView)findViewById(R.id.year);
+        t3=(TextView)findViewById(R.id.branch);
         img = (ImageView) findViewById(R.id.imageView2);
-        //img.setImageResource(R.drawable.malen);
+        img.setImageResource(R.drawable.malen);
         InputStream is = getResources().openRawResource(R.drawable.malen);
         bmp = BitmapFactory.decodeStream(is);
-        Bundle b = getIntent().getExtras();
+
+        b = getIntent().getExtras();
         name = b.getString("name");
         name = name.toUpperCase();
         String ar[] = name.split(",");
         name = ar[0];
-        gender = ar[1];
-        srno = ar[2];
+        srno = ar[1];
+        String year=ar[2];
+        String branch=ar[3];
         t1.setText("Hello,Welcome " + name);
-           // Toast.makeText(getBaseContext(),gender,Toast.LENGTH_SHORT).show();
+        t2.setText("Year "+year);
+        t3.setText("Branch "+branch);
+        //Toast.makeText(getBaseContext(),gender,Toast.LENGTH_SHORT).show();
 
+
+        String s = getStatus(srno);
+        String temp[] = s.split(",");
+        gender = temp[1];
+        status = temp[0];
         getImage();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,14 +114,12 @@ public class MainActivity extends AppCompatActivity
              /*   Intent i = new Intent("android.intent.action.Game");
                 i.putExtra("srno",srno+","+name);
                 startActivity(i);*/
-                String result=getStatus(srno);
-                if(result.equals("1")){
-                Intent i = new Intent(MainActivity.this, Gender.class);
-                i.putExtra("info", name + "," + srno);
-                startActivity(i);}
-                else
-                {
-                    Toast.makeText(getBaseContext(),"Your account hasn't been varified yet.Please try again after sometime..",Toast.LENGTH_LONG).show();
+                if (status.equals("1")) {
+                    Intent i = new Intent(MainActivity.this, Gender.class);
+                    i.putExtra("info", name + "," + srno);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getBaseContext(), "Your account hasn't been varified yet.Please try again after sometime..", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -117,49 +135,50 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+
     private String getStatus(String srno) {
 
-        class GetStatus extends AsyncTask<String,String,String>{
+        class GetStatus extends AsyncTask<String, String, String> {
 
             @Override
             protected String doInBackground(String... params) {
-                String srno=params[0];
-                String sr=srno.replace("/","");
-                String res="";
-                try{
-                    URL url=new URL("http://192.168.43.89/phpmyadmin/getStatus.php");
-                    HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                            httpURLConnection.setRequestMethod("POST");
-                        httpURLConnection.setDoOutput(true);
-                        httpURLConnection.setDoInput(true);
-                            OutputStream outputStream=httpURLConnection.getOutputStream();
-                        BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+                String srno = params[0];
+                String sr = srno.replace("/", "");
+                String res = "";
+                try {
+                    URL url = new URL("http://192.168.43.89/phpmyadmin/getStatus.php");
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                     String data = URLEncoder.encode("srno", "UTF-8") + "=" + URLEncoder.encode(sr, "UTF-8");
                     bufferedWriter.write(data);
                     bufferedWriter.close();
-                    InputStream inputStream=httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
-                    res=bufferedReader.readLine();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                    res = bufferedReader.readLine();
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return res;
             }
         }
-        GetStatus getStatus=new GetStatus();
-        String re=null;
+        GetStatus getStatus = new GetStatus();
+        String re = null;
         try {
-            re= getStatus.execute(srno).get();
+            re = getStatus.execute(srno).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        return  re;
+        return re;
     }
 
     public void getImage() {
@@ -170,16 +189,12 @@ public class MainActivity extends AppCompatActivity
             protected void onPostExecute(Bitmap bitmap) {
                 super.onPostExecute(bitmap);
                 loading.dismiss();
-                if(bitmap!=null) {
+                if (bitmap != null) {
                     img.setImageBitmap(bitmap);
-                }
-                else
-                {
-                    if(gender.equals("M")){
+                } else {
+                    if (gender.equals("M")) {
                         img.setImageResource(R.drawable.malen);
-                    }
-                    else
-                    {
+                    } else {
                         img.setImageResource(R.drawable.femalen);
                     }
                 }
@@ -188,8 +203,8 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             protected Bitmap doInBackground(String... strings) {
-                String srno=strings[0];
-                String sr=srno.replace("/","");
+                String srno = strings[0];
+                String sr = srno.replace("/", "");
                 String gender = strings[1];
                 // String url="http://192.168.43.89/phpmyadmin/getImage.php?srno="+srno;
                 ///String url="http://192.168.43.89/phpmyadmin/DemoGetImage.php";
@@ -226,8 +241,8 @@ public class MainActivity extends AppCompatActivity
                         options.inJustDecodeBounds=false;
                         image = BitmapFactory.decodeStream(httpURLConnection.getInputStream(), r, options);
                     }*/
-                    Bitmap tempImage=BitmapFactory.decodeStream(httpURLConnection.getInputStream());
-                    image=resizeBitmap(tempImage);
+                    Bitmap tempImage = BitmapFactory.decodeStream(httpURLConnection.getInputStream());
+                    image = resizeBitmap(tempImage);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -238,7 +253,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(MainActivity.this, "Uploading...",null, true, true);
+                loading = ProgressDialog.show(MainActivity.this, "Uploading...", null, true, true);
 
             }
         }
@@ -259,6 +274,9 @@ public class MainActivity extends AppCompatActivity
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        /*    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/*");
+            startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);*/
         } else if (id == R.id.nav_edit_profile) {
             Intent intent = new Intent(MainActivity.this, EditPofile.class);
             intent.putExtra("srno", srno);
@@ -285,7 +303,9 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(i, cameraData);
 
+
         } else if (id == R.id.nav_mail) {
+
             Intent r = new Intent("android.intent.action.ContactUs");
             String info = srno + "," + name;
             r.putExtra("info", info);
@@ -293,8 +313,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_dp_celebrity) {
             Intent r = new Intent("android.intent.action.DPCELEBRITY");
             startActivity(r);
-        }else if(id==R.id.nav_players){
-            Intent r=new Intent(MainActivity.this,Players.class);
+        } else if (id == R.id.nav_players) {
+            Intent r = new Intent(MainActivity.this, Players.class);
             startActivity(r);
         }
 
@@ -306,75 +326,34 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("WANT TO SAVE IMAGE?")
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
-                            try {
-
-                                bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                                img.setImageBitmap(bmp);
-
-                                myUploadImage();
-                            } catch (Exception e) {
-                                Toast.makeText(getBaseContext(), "Image Size is too Large", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
-
+        Intent intent = new Intent(MainActivity.this, Cropper.class);
+        if (resultCode != RESULT_CANCELED) {
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                Uri filePath = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                   Bitmap resizedBitmap= resizeBitmap(bitmap);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] bytes = stream.toByteArray();
+                    intent.putExtra("Bitmap", bytes);
+                    startActivity(intent);
+                    //   img.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            });
-            builder.show();
-
-
-        }
-        if (requestCode == cameraData && resultCode == RESULT_OK) {
-            Bundle b = data.getExtras();
-            bmp = (Bitmap) b.get("data");
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("WANT TO SAVE IMAGE?")
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
-                            try {
-                                img.setImageBitmap(bmp);
-                                myUploadImage();
-                            } catch (Exception e) {
-                                Toast.makeText(getBaseContext(), "Image Size is too Large", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
-
-                }
-            });
-            builder.show();
-
+            } else if (requestCode == cameraData) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                intent.putExtra("Bitmap", bitmap);
+                startActivity(intent);
+                img.setImageBitmap(bitmap);
+            }
         }
     }
 
-    private void myUploadImage() {
+    public void myUploadImage(Bitmap bitmap) {
         class MyRequestHandler extends AsyncTask<String, String, String> {
-            ProgressDialog loading;
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                loading = ProgressDialog.show(MainActivity.this, "Uploading Image...", "Please Wait...", true, true);
-            }
 
             @Override
             protected String doInBackground(String... strings) {
@@ -426,38 +405,31 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                loading.dismiss();
-                Toast.makeText(getBaseContext(), s, Toast.LENGTH_SHORT).show();
             }
         }
         MyRequestHandler myRequestHandler = new MyRequestHandler();
-       Bitmap resize=resizeBitmap(bmp);
+        Bitmap resize = resizeBitmap(bitmap);
+
         String StringBmp = getStringImage(resize);
-        String sr=srno.replace("/","");
+
+        String sr = srno.replace("/", "");
         myRequestHandler.execute(StringBmp, sr, gender, name);
 
     }
 
     private Bitmap resizeBitmap(Bitmap image) {
+           int  width = image.getWidth();
+        int height = image.getHeight();
+        double scale = width / (height * (1.0));
+        if (width >= height) {
+            Bitmap resized = Bitmap.createScaledBitmap(image, (int) (1000 * scale), 1000, true);
+            return resized;
+        } else {
+            Bitmap resized = Bitmap.createScaledBitmap(image, 1000, (int) (1000 / scale), true);
+            return resized;
+        }
 
-        int width=image.getWidth();
-        int height=image.getHeight();
-        int newWidth=0;
-        int newHeight=0;
-        if (height >= width) {
-            newWidth=600;
-            newHeight=800;
-        }
-        if(width>height){
-            newWidth=800;
-            newHeight=600;
-        }
-        float scaleWidth=((float)newWidth)/width;
-        float scaleHeigth=((float)newHeight)/height;
-        Matrix matrix=new Matrix();
-        matrix.postScale(scaleWidth,scaleHeigth);
-        Bitmap resized=Bitmap.createBitmap(image,0,0,width,height,matrix,false);
-        return resized;
+
     }
 
 
@@ -473,7 +445,7 @@ public class MainActivity extends AppCompatActivity
         Bitmap resizedBitmap=Bitmap.createBitmap(bitmap,0,0,width,height,matrix,true);*/
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         //resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
@@ -509,4 +481,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+         getImage();
+    }
 }
