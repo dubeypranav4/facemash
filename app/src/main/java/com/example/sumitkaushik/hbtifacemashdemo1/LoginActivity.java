@@ -272,7 +272,10 @@ public class LoginActivity extends Activity {
             String sr = srno.replace("/", "");
             String password = params[1];
             String url = "http://192.168.43.89/phpmyadmin/hbtiFaceMashLogin.php";
+
+          //  String url="http://shareyourbook.netau.net/test/OhbtiFaceMashLogin.php";
             boolean b = isConnectedToServer();
+
             if (b) {
                 try {
                     URL u = new URL(url);
@@ -296,6 +299,7 @@ public class LoginActivity extends Activity {
                     }
                     bufferedReader.close();
                     inputStream.close();
+                    int i=httpURLConnection.getResponseCode();
                     httpURLConnection.disconnect();
                     return response;
                 } catch (Exception e) {
@@ -329,10 +333,11 @@ public class LoginActivity extends Activity {
                 if (re[0].equals("Success")) {
                     String name = re[1];
                     String year=re[2];
-                    String branch=re[3];
+                    String gender=re[3];
+                   String branch=re[4];
                     autoSet();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("name", name + "," + srno+","+year+","+branch);
+                    intent.putExtra("name", name + "," +gender+","+ srno+","+year+","+branch);
                     startActivity(intent);
                     finish();
                 } else if (success.equals("LogIn Failed")) {
@@ -362,7 +367,6 @@ public class LoginActivity extends Activity {
     private void autoSet() {
         String no=mEmailView.getText().toString();
         String password=mPasswordView.getText().toString();
-        String gen=gender;
         File f=new File("Info.txt");
 
         try {
@@ -388,7 +392,6 @@ out.write(no);
 
         String Srno = "";
         String Pass = "";
-        String gen="";
         try {
             InputStream is = openFileInput("Info.txt");
             if (is != null) {

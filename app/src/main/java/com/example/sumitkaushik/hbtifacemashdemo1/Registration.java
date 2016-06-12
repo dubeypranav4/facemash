@@ -275,7 +275,7 @@ public class Registration extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == cameraData && resultCode == RESULT_OK){
-        Bundle b=data.getExtras();
+ Bundle b=data.getExtras();
         bmp=(Bitmap)b.get("data");
         upload();}
     }

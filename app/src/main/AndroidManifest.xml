@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="Hbti Face Mash"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,6 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppTheme.NoActionBar"
             >
             <intent-filter>
                 <action android:name="android.intent.action.LOGINACTIVITY" />
@@ -120,7 +119,9 @@
         </activity>
         <activity
             android:name=".dpCelebrity"
-            android:theme="@style/dpCeleb">
+            android:theme="@style/dpCeleb"
+            android:label="DP Celebrity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.DPCELEBRITY" />
 
@@ -130,8 +131,8 @@
         <activity
             android:name=".EditPofile"
             android:label="@string/title_acitivity_editprofile"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
+
+            >
             <intent-filter>
                 <action android:name="android.intent.action.EditProfile" />
 
@@ -142,15 +143,17 @@
         <activity android:name=".Female" />
         <activity
             android:name=".Players"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:label="Players">
             <intent-filter>
                 <action android:name="android.intent.action.Players" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Cropper">
+        <activity android:name=".Cropper"
+            android:label="Cropper"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.CROPPER" />
 

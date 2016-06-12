@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
+import android.widget.Toolbar;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -27,22 +28,24 @@ public class Players extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player);
+        setContentView(R.layout.players);
         search = (EditText) findViewById(R.id.etSearch);
         ArrayList<HashMap<String, String>> feedList = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map = new HashMap<String, String>();
         String result = getData();
-        String[] r1 = result.split("<br>");
-        for (int i = 0; i < r1.length; i++) {
-            String[] r2 = r1[i].split(" ",3);
+        if(!result.equals("")) {
+            String[] r1 = result.split("<br>");
+            for (int i = 0; i < r1.length; i++) {
+                String[] r2 = r1[i].split(" ", 3);
 
-            map = new HashMap<String, String>();
-            map.put("SrNo", r2[0]);
+                map = new HashMap<String, String>();
+                map.put("SrNo", r2[0]);
 
-            map.put("Name",r2[2]);
-            map.put("Score", r2[1]);
+                map.put("Name", r2[2]);
+                map.put("Score", r2[1]);
 
-            feedList.add(map);
+                feedList.add(map);
+            }
         }
         simpleAdapter = new SimpleAdapter(this, feedList, R.layout.view_item, new String[]{"SrNo", "Name", "Score"}, new int[]{R.id.textSrno, R.id.textName, R.id.textScore});
         setListAdapter(simpleAdapter);
@@ -62,6 +65,7 @@ public class Players extends ListActivity {
                 Players.this.simpleAdapter.getFilter().filter(s);
             }
         });
+
     }
 
     private String getData() {

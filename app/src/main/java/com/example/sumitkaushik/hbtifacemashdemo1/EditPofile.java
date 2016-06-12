@@ -1,5 +1,6 @@
 package com.example.sumitkaushik.hbtifacemashdemo1;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -36,6 +37,9 @@ public class EditPofile extends Activity {
         Bundle bundle=getIntent().getExtras();
         srno=bundle.getString("srno");
         b=(Button)findViewById(R.id.button);
+
+
+
         e1=(EditText)findViewById(R.id.editText4);
         e2=(EditText)findViewById(R.id.editText5);
         e3=(EditText)findViewById(R.id.editText6);

@@ -11,14 +11,17 @@
             android:title="Take A Pic"/>
         <item
             android:id="@+id/nav_dp_celebrity"
-            android:title="DP Celebrity"/>
+            android:title="DP Celebrity"
+            android:icon="@drawable/ic_wc_black_24dp"/>
 
         <item
             android:title="Edit Profile"
-            android:id="@+id/nav_edit_profile"/>
+            android:id="@+id/nav_edit_profile"
+            android:icon="@drawable/ic_mode_edit_black_24dp"/>
         <item
             android:title="Players"
-            android:id="@+id/nav_players"/>
+            android:id="@+id/nav_players"
+            android:icon="@drawable/ic_people_black_24dp"/>
 
 
 
@@ -36,7 +39,8 @@
                 android:title="Send" />
             <item
                 android:id="@+id/nav_mail"
-                android:title="Contact Us" />
+                android:title="Contact Us"
+                android:icon="@drawable/ic_contact_mail_black_24dp"/>
 
         </menu>
     </item>

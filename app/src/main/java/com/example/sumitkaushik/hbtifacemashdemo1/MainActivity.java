@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -15,12 +16,14 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.renderscript.ScriptGroup;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -30,19 +33,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOError;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -52,6 +53,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
+
+import javax.microedition.khronos.opengles.GL10;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -87,20 +90,18 @@ public class MainActivity extends AppCompatActivity
         name = name.toUpperCase();
         String ar[] = name.split(",");
         name = ar[0];
-        srno = ar[1];
-        String year=ar[2];
-        String branch=ar[3];
+        gender=ar[1];
+        srno = ar[2];
+        String year=ar[3];
+        String branch=ar[4];
         t1.setText("Hello,Welcome " + name);
         t2.setText("Year "+year);
-        t3.setText("Branch "+branch);
+        t3.setText("Branch " + branch);
         //Toast.makeText(getBaseContext(),gender,Toast.LENGTH_SHORT).show();
 
 
-        String s = getStatus(srno);
-        String temp[] = s.split(",");
-        gender = temp[1];
-        status = temp[0];
         getImage();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -114,6 +115,10 @@ public class MainActivity extends AppCompatActivity
              /*   Intent i = new Intent("android.intent.action.Game");
                 i.putExtra("srno",srno+","+name);
                 startActivity(i);*/
+                String s = getStatus(srno);
+                String temp[] = s.split(",");
+                //gender = temp[1];
+                status = temp[0];
                 if (status.equals("1")) {
                     Intent i = new Intent(MainActivity.this, Gender.class);
                     i.putExtra("info", name + "," + srno);
@@ -144,7 +149,8 @@ public class MainActivity extends AppCompatActivity
             protected String doInBackground(String... params) {
                 String srno = params[0];
                 String sr = srno.replace("/", "");
-                String res = "";
+                String response = null;
+          //      String u="http://shareyourbook.netau.net/test/OgetStatus.php";
                 try {
                     URL url = new URL("http://192.168.43.89/phpmyadmin/getStatus.php");
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -158,7 +164,8 @@ public class MainActivity extends AppCompatActivity
                     bufferedWriter.close();
                     InputStream inputStream = httpURLConnection.getInputStream();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                    res = bufferedReader.readLine();
+                  response=bufferedReader.readLine();
+
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
@@ -166,7 +173,7 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return res;
+                return response;
             }
         }
         GetStatus getStatus = new GetStatus();
@@ -187,12 +194,23 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
-                super.onPostExecute(bitmap);
+
                 loading.dismiss();
-                if (bitmap != null) {
-                    img.setImageBitmap(bitmap);
+               // Toast.makeText(getBaseContext(),s,Toast.LENGTH_SHORT).show();
+               if (bitmap != null) {
+
+                   img.setImageBitmap(ScalingUtility.createScaledBitmap(bitmap,300,250));
+                  /* if(bitmap.getHeight()>GL10.GL_MAX_TEXTURE_SIZE){
+                       float aspect_ratio = ((float)bitmap.getHeight())/((float)bitmap.getWidth());
+                       Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                               (int) ((GL10.GL_MAX_TEXTURE_SIZE*0.9)*aspect_ratio),
+                               (int) (GL10.GL_MAX_TEXTURE_SIZE*0.9));
+                       img.setImageBitmap(scaledBitmap);
+                   }else{
+                       img.setImageBitmap(bitmap);
+                   }*/
                 } else {
-                    if (gender.equals("M")) {
+                    if (gender.equals("MALE")) {
                         img.setImageResource(R.drawable.malen);
                     } else {
                         img.setImageResource(R.drawable.femalen);
@@ -201,15 +219,18 @@ public class MainActivity extends AppCompatActivity
 
             }
 
+
+
             @Override
             protected Bitmap doInBackground(String... strings) {
                 String srno = strings[0];
-                String sr = srno.replace("/", "");
                 String gender = strings[1];
                 // String url="http://192.168.43.89/phpmyadmin/getImage.php?srno="+srno;
                 ///String url="http://192.168.43.89/phpmyadmin/DemoGetImage.php";
                 String url = "http://192.168.43.89/phpmyadmin/downloadFromServer.php";
+               // String u="http://shareyourbook.netau.net/test/OdownloadFromServer.php";
                 Bitmap image = null;
+                String s=null;
                 try {
                     // URL add=new URL(url);
                     // image=BitmapFactory.decodeStream(add.openConnection().getInputStream());
@@ -220,29 +241,12 @@ public class MainActivity extends AppCompatActivity
                     httpURLConnection.setDoInput(true);
                     OutputStream outputStream = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                    String data = URLEncoder.encode("srno", "UTF-8") + "=" + URLEncoder.encode(sr, "UTF-8")
+                    String data = URLEncoder.encode("srno", "UTF-8") + "=" + URLEncoder.encode(srno, "UTF-8")
                             + "&" + URLEncoder.encode("gender", "UTF-8") + "=" + URLEncoder.encode(gender, "UTF-8");
                     bufferedWriter.write(data);
                     bufferedWriter.close();
-                  /*  BitmapFactory.Options options=new BitmapFactory.Options();
-                    options.inJustDecodeBounds=true;
-                    Rect r=new Rect(-1,-1,-1,-1);
-                    //image = BitmapFactory.decodeStream(httpURLConnection.getInputStream(),r,options);
-                    long totalImagePixels=options.outHeight*options.outWidth;
-                    long totalScreenPixels=300*400;
-                    if(totalImagePixels>totalScreenPixels){
-                        double factor=(float)totalImagePixels/(float)(totalScreenPixels);
-                        int sampleSize=(int)Math.pow(2,Math.floor(Math.sqrt(factor)));
-                        options.inJustDecodeBounds=false;
-                        options.inSampleSize=sampleSize;
-                        image= BitmapFactory.decodeStream(httpURLConnection.getInputStream(),r,options);
-                    }
-                    else {
-                        options.inJustDecodeBounds=false;
-                        image = BitmapFactory.decodeStream(httpURLConnection.getInputStream(), r, options);
-                    }*/
-                    Bitmap tempImage = BitmapFactory.decodeStream(httpURLConnection.getInputStream());
-                    image = resizeBitmap(tempImage);
+                        image = BitmapFactory.decodeStream(httpURLConnection.getInputStream());
+                   // image = resizeBitmap(tempImage);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -258,8 +262,10 @@ public class MainActivity extends AppCompatActivity
             }
         }
         GetImage gi = new GetImage();
-        gi.execute(srno, gender);
+        String sr=srno.replace("/","");
+        gi.execute(sr, gender);
     }
+
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -301,6 +307,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_take_pic) {
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            i.putExtra(MediaStore.EXTRA_OUTPUT,true);
             startActivityForResult(i, cameraData);
 
 
@@ -332,11 +339,18 @@ public class MainActivity extends AppCompatActivity
                 Uri filePath = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                   Bitmap resizedBitmap= resizeBitmap(bitmap);
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    byte[] bytes = stream.toByteArray();
-                    intent.putExtra("Bitmap", bytes);
+                    ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+                    FileOutputStream fileOutputStream=null;
+                    try{
+                        fileOutputStream=openFileOutput("Image.txt",Context.MODE_PRIVATE);
+                        fileOutputStream.write(byteArrayOutputStream.toByteArray());
+                        fileOutputStream.close();
+                        Toast.makeText(getBaseContext(),"image written",Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Toast.makeText(getBaseContext(),"error",Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
                     startActivity(intent);
                     //   img.setImageBitmap(bitmap);
                 } catch (IOException e) {
@@ -344,9 +358,27 @@ public class MainActivity extends AppCompatActivity
                 }
             } else if (requestCode == cameraData) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                intent.putExtra("Bitmap", bitmap);
-                startActivity(intent);
-                img.setImageBitmap(bitmap);
+                try {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    assert bitmap != null;
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                    FileOutputStream fileOutputStream = null;
+                    try {
+                        fileOutputStream = openFileOutput("Image.txt", Context.MODE_PRIVATE);
+                        fileOutputStream.write(byteArrayOutputStream.toByteArray());
+                        fileOutputStream.close();
+                        Toast.makeText(getBaseContext(), "image written", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getBaseContext(), "error", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                    startActivity(intent);
+                    intent.putExtra("Bitmap", bitmap);
+                    startActivity(intent);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -408,29 +440,30 @@ public class MainActivity extends AppCompatActivity
             }
         }
         MyRequestHandler myRequestHandler = new MyRequestHandler();
-        Bitmap resize = resizeBitmap(bitmap);
 
-        String StringBmp = getStringImage(resize);
+     //  Bitmap resize = resizeBitmap(bitmap);
 
+        String StringBmp = getStringImage(bitmap);
         String sr = srno.replace("/", "");
         myRequestHandler.execute(StringBmp, sr, gender, name);
 
     }
 
     private Bitmap resizeBitmap(Bitmap image) {
-           int  width = image.getWidth();
-        int height = image.getHeight();
-        double scale = width / (height * (1.0));
-        if (width >= height) {
-            Bitmap resized = Bitmap.createScaledBitmap(image, (int) (1000 * scale), 1000, true);
-            return resized;
-        } else {
-            Bitmap resized = Bitmap.createScaledBitmap(image, 1000, (int) (1000 / scale), true);
-            return resized;
-        }
-
+        Bitmap scaledBitmap=Bitmap.createBitmap(300,250,Config.ARGB_8888);
+        float scaleX=300/(float) image.getWidth();
+        float scaleY=250/(float)image.getHeight();
+        float pivotX=0;
+        float pivotY=0;
+        Matrix scaleMatrix=new Matrix();
+        scaleMatrix.setScale(scaleX, scaleY, pivotX, pivotY);
+        Canvas canvas=new Canvas(scaledBitmap);
+        canvas.setMatrix(scaleMatrix);
+        canvas.drawBitmap(image,0,0,new Paint(Paint.FILTER_BITMAP_FLAG));
+        return scaledBitmap;
 
     }
+
 
 
     public String getStringImage(Bitmap bitmap) {
@@ -486,4 +519,5 @@ public class MainActivity extends AppCompatActivity
         super.onPostResume();
          getImage();
     }
+
 }
