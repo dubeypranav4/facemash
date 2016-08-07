@@ -37,10 +37,11 @@ public class Registration extends AppCompatActivity {
 
     EditText e12, e14, e18;
     Button b12;
-    String username, srno, password,  gender;
+    String username, srno, password, gender;
     Bitmap bmp;
     int cameraData;
-    Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class Registration extends AppCompatActivity {
                 gender = checkedRadioButton.getText().toString();
             }
         });
-    b12.setOnClickListener(new View.OnClickListener() {
+        b12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 username = e12.getText().toString();
@@ -90,7 +91,6 @@ public class Registration extends AppCompatActivity {
                     focusView.requestFocus();
                     //  Toast.makeText(getBaseContext(),"Not Empty",Toast.LENGTH_SHORT).show();
                 }
-
 
 
                 if (r == 2) {
@@ -127,15 +127,14 @@ public class Registration extends AppCompatActivity {
         }
 
 
-
-            char us[] = u.toCharArray();
-            if (!((us[0] >= 'a' && us[0] <= 'z') || (us[0] >= 'A' && us[0] <= 'Z'))) {
-                return 3;
-            }
-            if (p.length() < 6) {
-                return 2;
-            }
-            return 0;
+        char us[] = u.toCharArray();
+        if (!((us[0] >= 'a' && us[0] <= 'z') || (us[0] >= 'A' && us[0] <= 'Z'))) {
+            return 3;
+        }
+        if (p.length() < 6) {
+            return 2;
+        }
+        return 0;
 
     }
 
@@ -205,7 +204,7 @@ public class Registration extends AppCompatActivity {
             String url = "http://192.168.43.89/phpmyadmin/facemashRegistration.php";
             String username = params[0];
             String srno = params[1];
-            String sr=srno.replace("/","");
+            String sr = srno.replace("/", "");
             String password = params[2];
             String gender = params[3];
             String response = "";
@@ -243,11 +242,11 @@ public class Registration extends AppCompatActivity {
 
         public void onPostExecute(String result) {
 
-          //  progressDialog.dismiss();
+            //  progressDialog.dismiss();
             if (result.equals("user has been registered")) {
                 Toast.makeText(getBaseContext(), "Sorry!! You Have Created The Account", Toast.LENGTH_SHORT).show();
             } else if (result.equals("data inserted")) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(Registration.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Registration.this);
                 builder.setMessage("Help us to varify you easily by uploading your RC or ID. ").setPositiveButton("Upload RC/Id", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -257,8 +256,8 @@ public class Registration extends AppCompatActivity {
                 }).setNegativeButton("No Thanks", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getBaseContext(),"You can log In now.Please give us some time to varify You..",Toast.LENGTH_LONG).show();
-                        Intent start=new Intent(Registration.this,LoginActivity.class);
+                        Toast.makeText(getBaseContext(), "You can log In now.Please give us some time to varify You..", Toast.LENGTH_LONG).show();
+                        Intent start = new Intent(Registration.this, LoginActivity.class);
                         startActivity(start);
                         finish();
 
@@ -267,83 +266,82 @@ public class Registration extends AppCompatActivity {
                 builder.show();
             }
 
-            }
-
         }
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == cameraData && resultCode == RESULT_OK){
- Bundle b=data.getExtras();
-        bmp=(Bitmap)b.get("data");
-        upload();}
+        if (requestCode == cameraData && resultCode == RESULT_OK) {
+            Bundle b = data.getExtras();
+            bmp = (Bitmap) b.get("data");
+            upload();
+        }
     }
 
     private void upload() {
 
-         class Upload extends AsyncTask<String,String,String>{
+        class Upload extends AsyncTask<String, String, String> {
 
 
-             @Override
-             protected String doInBackground(String... strings) {
-                 String img=strings[0];
-                 String srno=strings[1];
-                 String sr=srno.replace("/","");
-                 String response="";
-                 String url = "http://192.168.43.89/phpmyadmin/uploadId.php";
-                 try{
-                     URL add = new URL(url);
-                     HttpURLConnection httpURLConnection = (HttpURLConnection) add.openConnection();
-                     httpURLConnection.setRequestMethod("POST");
-                     httpURLConnection.setDoOutput(true);
-                     httpURLConnection.setDoInput(true);
-                     OutputStream outputStream = httpURLConnection.getOutputStream();
-                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                     String data = URLEncoder.encode("uploadImage", "UTF-8") + "=" + URLEncoder.encode(img, "UTF-8")
-                             + "&" + URLEncoder.encode("srno", "UTF-8") + "=" + URLEncoder.encode(sr, "UTF-8");
-                     bufferedWriter.write(data);
-                     bufferedWriter.close();
-                     outputStream.close();
-                     InputStream inputStream = httpURLConnection.getInputStream();
-                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            @Override
+            protected String doInBackground(String... strings) {
+                String img = strings[0];
+                String srno = strings[1];
+                String sr = srno.replace("/", "");
+                String response = "";
+                String url = "http://192.168.43.89/phpmyadmin/uploadId.php";
+                try {
+                    URL add = new URL(url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) add.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                    String data = URLEncoder.encode("uploadImage", "UTF-8") + "=" + URLEncoder.encode(img, "UTF-8")
+                            + "&" + URLEncoder.encode("srno", "UTF-8") + "=" + URLEncoder.encode(sr, "UTF-8");
+                    bufferedWriter.write(data);
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
 
-                     String line = "";
-                     while ((line = bufferedReader.readLine()) != null) {
-                         response += line;
-                     }
+                    String line = "";
+                    while ((line = bufferedReader.readLine()) != null) {
+                        response += line;
+                    }
 
-                     bufferedReader.close();
-                     inputStream.close();
-                     httpURLConnection.disconnect();
+                    bufferedReader.close();
+                    inputStream.close();
+                    httpURLConnection.disconnect();
 
-                 }catch (Exception e){
-                     e.printStackTrace();
-                 }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                 return response;
-                 
-             }
+                return response;
 
-             @Override
-             protected void onPostExecute(String s) {
-                 super.onPostExecute(s);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
                 // progressDialog.dismiss();
-                 Toast.makeText(Registration.this,"You can log In now.Please give us some time to varify You.. ", Toast.LENGTH_SHORT).show();
-                 Intent intent = new Intent(Registration.this, LoginActivity.class);
-                 startActivity(intent);
-                 finish();
-             }
-         }
-        Upload u=new Upload();
-        String img=new MainActivity().getStringImage(bmp);
-        String sr=  srno.replace("/", "");
-        if(!sr.equals("")) {
-            u.execute(img, sr);
+                Toast.makeText(Registration.this, "You can log In now.Please give us some time to varify You.. ", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Registration.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
-        else
-        {
-            Toast.makeText(Registration.this,"Please enter your S.R.No... ", Toast.LENGTH_SHORT).show();
+        Upload u = new Upload();
+        String img = new MainActivity().getStringImage(bmp);
+        String sr = srno.replace("/", "");
+        if (!sr.equals("")) {
+            u.execute(img, sr);
+        } else {
+            Toast.makeText(Registration.this, "Please enter your S.R.No... ", Toast.LENGTH_SHORT).show();
         }
     }
 

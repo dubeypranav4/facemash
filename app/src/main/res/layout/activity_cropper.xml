@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".Cropper">
+
+
+    <com.example.sumitkaushik.hbtifacemashdemo1.CropImageView
+        android:id="@+id/cropImage"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_margin="10sp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_rotate_left_black_18dp"
+        android:background="@drawable/button"
+        android:id="@+id/bLeft"/>
+    <Button
+        android:id="@+id/cropIt"
+        style="?android:textAppearanceSmall"
+        android:layout_width="175dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/button"
+        android:shadowColor="#F50057"
+        android:text="Crop"
+        android:textColor="#eeeeee"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal" />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_rotate_right_black_18dp"
+        android:background="@drawable/button"
+        android:id="@+id/bRight"
+        />
+    </LinearLayout>
+    </LinearLayout>

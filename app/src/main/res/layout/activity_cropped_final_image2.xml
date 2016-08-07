@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.sumitkaushik.hbtifacemashdemo1.croppedFinalImage">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal">
+    <ImageView
+        android:id="@+id/finalCropped"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/imageborder"
+        />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/bEdit"
+            style="?android:textAppearanceSmall"
+            android:layout_width="95dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button"
+            android:shadowColor="#F50057"
+            android:text="Edit"
+            android:textColor="#eeeeee"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bUpload"
+            style="?android:textAppearanceSmall"
+            android:layout_width="95dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button"
+            android:shadowColor="#F50057"
+            android:text="Upload"
+            android:textColor="#eeeeee"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -449,20 +449,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private Bitmap resizeBitmap(Bitmap image) {
-        Bitmap scaledBitmap=Bitmap.createBitmap(300,250,Config.ARGB_8888);
-        float scaleX=300/(float) image.getWidth();
-        float scaleY=250/(float)image.getHeight();
-        float pivotX=0;
-        float pivotY=0;
-        Matrix scaleMatrix=new Matrix();
-        scaleMatrix.setScale(scaleX, scaleY, pivotX, pivotY);
-        Canvas canvas=new Canvas(scaledBitmap);
-        canvas.setMatrix(scaleMatrix);
-        canvas.drawBitmap(image,0,0,new Paint(Paint.FILTER_BITMAP_FLAG));
-        return scaledBitmap;
-
-    }
 
 
 

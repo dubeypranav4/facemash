@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.Toolbar;
@@ -24,31 +26,38 @@ public class Players extends ListActivity {
     String[] data;
     EditText search;
     SimpleAdapter simpleAdapter;
-
+String result;
+    HashMap<String, String> map = new HashMap<String, String>();
+    ArrayList<HashMap<String, String>> feedList = new ArrayList<HashMap<String, String>>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.players);
         search = (EditText) findViewById(R.id.etSearch);
-        ArrayList<HashMap<String, String>> feedList = new ArrayList<HashMap<String, String>>();
-        HashMap<String, String> map = new HashMap<String, String>();
-        String result = getData();
-        if(!result.equals("")) {
-            String[] r1 = result.split("<br>");
-            for (int i = 0; i < r1.length; i++) {
-                String[] r2 = r1[i].split(" ", 3);
+        Button button=(Button)findViewById(R.id.list);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                result = getData();
+                if (!result.equals("")) {
+                    String[] r1 = result.split("<br>");
+                    for (int i = 0; i < r1.length; i++) {
+                        String[] r2 = r1[i].split(" ", 3);
 
-                map = new HashMap<String, String>();
-                map.put("SrNo", r2[0]);
+                        map = new HashMap<String, String>();
+                        map.put("SrNo", r2[0]);
 
-                map.put("Name", r2[2]);
-                map.put("Score", r2[1]);
+                        map.put("Name", r2[2]);
+                        map.put("Score", r2[1]);
 
-                feedList.add(map);
+                        feedList.add(map);
+                    }
+                }
+                simpleAdapter = new SimpleAdapter(Players.this, feedList, R.layout.view_item, new String[]{"SrNo", "Name", "Score"}, new int[]{R.id.textSrno, R.id.textName, R.id.textScore});
+                setListAdapter(simpleAdapter);
+
             }
-        }
-        simpleAdapter = new SimpleAdapter(this, feedList, R.layout.view_item, new String[]{"SrNo", "Name", "Score"}, new int[]{R.id.textSrno, R.id.textName, R.id.textScore});
-        setListAdapter(simpleAdapter);
+        });
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

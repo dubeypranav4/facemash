@@ -43,8 +43,6 @@ public class dpCelebrity extends FragmentActivity implements
         Bitmap gImage=getGImage();
              mAdapter.init(mImage, gImage);
         viewPager.setAdapter(mAdapter);
-    //actionBar.setBackgroundDrawable(new ColorDrawable(R.color.colorPrimary));
-    //actionBar.setHomeButtonEnabled(false);
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
 // Adding Tabs
