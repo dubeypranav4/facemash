@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.sumitkaushik.hbtifacemashdemo1.LoginActivity">
+    tools:context="com.sumit.kaushik.HBTUFacemash.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -30,6 +30,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/textView12"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/srno"
+                    android:layout_centerHorizontal="true"
+                    android:text="HBTU Facemash"
+                    android:textAlignment="center"
+                    android:textAppearance="@color/abc_primary_text_disable_only_material_dark"
+                    android:textSize="20dp"
+                    android:textStyle="normal|bold"
+                    android:typeface="monospace" />
+            </LinearLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -48,10 +77,12 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/rl1"
                     android:layout_height="wrap_content">
 
                     <EditText
@@ -67,8 +98,15 @@
                         android:singleLine="true"
                         android:textSize="15sp" />
 
-                </android.support.design.widget.TextInputLayout>
 
+                </android.support.design.widget.TextInputLayout>
+<CheckBox
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/rl1"
+    android:id="@+id/showPassword"
+    android:layout_alignRight="@+id/rl1"
+    android:text="Show Password"/>
             </RelativeLayout>
 
 
@@ -83,7 +121,6 @@
                 android:text="@string/action_sign_in"
                 android:textColor="#eeeeee"
                 android:textStyle="bold" />
-
             <TextView
                 android:id="@+id/register_button"
                 android:layout_width="fill_parent"
@@ -91,7 +128,7 @@
                 android:layout_marginBottom="24dp"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:text="No account yet? Create one"
+                android:text="@string/mytext"
                 android:textSize="16dip" />
         </LinearLayout>
 

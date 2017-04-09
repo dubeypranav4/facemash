@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.sumitkaushik.hbtifacemashdemo1.Player">
+    tools:context="com.sumit.kaushik.HBTUFacemash.Players">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,12 +21,9 @@
                 android:id="@+id/etSearch"
                 android:hint="Search.."/>
         </android.support.design.widget.TextInputLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/list"
-            android:text="List"
-            />
+        <android.support.v4.widget.SwipeRefreshLayout android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/refreshPlayer">
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,5 +31,6 @@
             android:layout_below="@+id/etSearch"
             >
         </ListView>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </RelativeLayout>

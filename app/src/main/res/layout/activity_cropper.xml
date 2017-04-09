@@ -11,23 +11,16 @@
     tools:context=".Cropper">
 
 
-    <com.example.sumitkaushik.hbtifacemashdemo1.CropImageView
-        android:id="@+id/cropImage"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_margin="10sp"/>
-    <LinearLayout
+    <com.theartofdev.edmodo.cropper.CropImageView
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cropImageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_rotate_left_black_18dp"
-        android:background="@drawable/button"
-        android:id="@+id/bLeft"/>
     <Button
         android:id="@+id/cropIt"
         style="?android:textAppearanceSmall"
@@ -40,12 +33,5 @@
         android:textColor="#eeeeee"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal" />
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_rotate_right_black_18dp"
-        android:background="@drawable/button"
-        android:id="@+id/bRight"
-        />
     </LinearLayout>
     </LinearLayout>

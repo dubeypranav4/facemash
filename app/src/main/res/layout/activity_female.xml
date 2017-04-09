@@ -7,11 +7,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.sumitkaushik.hbtifacemashdemo1.Female">
-    <com.example.sumitkaushik.hbtifacemashdemo1.CircularImageView
+    tools:context="com.sumit.kaushik.HBTUFacemash.Female">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/container"
+        android:weightSum="100"
+        android:orientation="vertical"
+        android:layout_height="fill_parent">
+    <com.sumit.kaushik.HBTUFacemash.CircularImageView
         android:id="@+id/female"
+        android:layout_weight="70"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
       />
+    <TextView
+        android:id="@+id/namecelebfemale"
+        android:paddingTop="3dp"
+        android:textAlignment="center"
+        android:text="name : Eric Cartman"
+        android:layout_weight="15"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp" />
+    <TextView
+        android:id="@+id/scorecelebfemale"
+        android:textAlignment="center"
+        android:layout_weight="15"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:paddingTop="3dp"
+        android:text="score : Always greater than kyle and stan"/>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:id="@+id/enlarged"
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

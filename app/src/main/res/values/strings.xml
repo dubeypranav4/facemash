@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">Hbti Face Mash</string>
+    <string name="app_name">Hbtu Face Mash</string>
     <string name="player_activity">Players</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="HBTIADD1">ca-app-pub-1738290593280517/3157673987</string>
+    <string name="HBTIADD2">ca-app-pub-1738290593280517/7587873589</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_registration">Registration</string>
@@ -44,6 +45,8 @@
     <string name="title_activity_finalize_crop">FinalizeCrop</string>
     <string name="title_activity_finalize">finalize</string>
     <string name="title_activity_cropped_final_image">croppedFinalImage</string>
+    <string name="mytext"><u>No account yet? Create one..</u></string>
+    <string name="link">For more info visit: <u><b>www.hbtifacemash.com</b></u></string>
 
 
 </resources>
